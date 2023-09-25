@@ -1,0 +1,197 @@
+<div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Current Facilities</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body p-0">
+        <% if(data.length > 0){ %>
+  
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th style="width: 10px">ID</th>
+              <th>FullName</th>
+              <th>Designation</th>
+              <th>Available</th>
+              <th style="width: 40px">Avatar</th>
+              <th style="width: 40px">status</th>
+              <th style="width: 40px">Action</th>
+            </tr>
+          </thead>
+          <% let id=0 %>
+          <tbody>
+            <% for(let item of data){ %>
+            <tr class="">
+              <td><%= ++id %></td>
+              <td><%= item?.fullName %></td>
+              <td>
+                <div class=""><%= item?.designation %></div>
+              </td>
+              <td>
+                <div>FaceBook</div>
+                 <div>Instagram</div> 
+                  <div>Twitter</div>
+              </td>
+              <td>
+                <img
+                  class="img-fluid rounded-lg"
+                  src="<%= item.avatar %>"
+                  alt="poster"
+                />
+              </td>
+  
+              <td>
+                <a
+                  href="/admin/popular-teachers/switch/<%= item._id %>"
+                  class="<%= item.active ? 'bg-danger' : 'bg-success' %> text-center btn text-xs"
+                >
+                  <%= item.active ? "Disable" : "Active" %>
+                </a>
+              </td>
+              <td>
+                <a
+                  class="bg-danger text-center btn"
+                  href="/admin/popular-teachers/<%= item._id %>"
+                  >Delete</a
+                >
+              </td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+        <% }else{ %>
+        <h3 class="d-flex justify-content-center align-content-center my-2 py-2">
+          No data found!
+        </h3>
+        <% } %>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <!-- general form elements -->
+    <div class="card card-primary">
+      <div class="card-header">
+        <h3 class="card-title">Add Popular-Teacher</h3>
+      </div>
+      <!-- /.card-header -->
+      <!-- form start -->
+      <form
+        action="/admin/popular-teachers"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <div class="card-body">
+          <!--  -->
+          <div class="form-group">
+            <label for="exampleInputFullName">Full Name</label>
+            <input
+              type="text"
+              name="fullName"
+              value="<%= payload && payload.fullName ? payload.fullName : ''  %>"
+              class="form-control"
+              id="exampleInputFullName"
+              placeholder="Enter Title"
+            />
+            <p class="text-danger text-sm">
+              <% if(errors && errors?.fullName){ %> <%= errors.fullName?.message %>
+              <% } %>
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputdesignation">Designation</label>
+            <input
+              type="text"
+              name="designation"
+              value="<%= payload && payload.designation ? payload.designation : ''  %>"
+              class="form-control"
+              id="exampleInputdesignation"
+              placeholder="Enter Designation"
+            />
+            <p class="text-danger text-sm">
+              <% if(errors && errors?.designation){ %> <%= errors.designation?.message %>
+              <% } %>
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputFile">Teacher Avatar</label>
+            <div class="input-group">
+              <div class="">
+                <input
+                  type="file"
+                  required
+                  name="avatar"
+                  class=""
+                  id="exampleInputFile"
+                  accept="image/*"
+                />
+                <p class="text-danger text-sm">
+                  <% if(errors && errors?.avatar){ %> <%= errors.avatar?.message %>
+                  <% } %>
+                </p>
+                <label class="custom-file-label" for="exampleInputFile"
+                  >Choose avatar</label
+                >
+              </div>
+            </div>
+          </div>
+          <!--   -->
+          <hr class="m-2 bg-white">
+          <span class="ml-1">Social Address:-</span>
+          <!-- Social Address Start  -->
+          <div class="form-group">
+            <label for="exampleInputFaceBook">FaceBook Link:</label>
+            <input
+              type="text"
+              name="fbLink"
+              value="<%= payload && payload.fbLink ? payload.fbLink : ''  %>"
+              class="form-control"
+              id="exampleInputFaceBook"
+              placeholder="Link"
+            />
+            <p class="text-danger text-sm">
+              <% if(errors && errors?.fbLink){ %> <%= errors.fbLink?.message %>
+              <% } %>
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputinstagramLink">Instagram Link:</label>
+            <input
+              type="text"
+              name="instagramLink"
+              value="<%= payload && payload.instagramLink ? payload.instagramLink : ''  %>"
+              class="form-control"
+              id="exampleInputinstagramLink"
+              placeholder="Link"
+            />
+            <p class="text-danger text-sm">
+              <% if(errors && errors?.instagramLink){ %> <%= errors.instagramLink?.message %>
+              <% } %>
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputtwitterLink">Twitter Link:</label>
+            <input
+              type="text"
+              name="twitterLink"
+              value="<%= payload && payload.twitterLink ? payload.twitterLink : ''  %>"
+              class="form-control"
+              id="exampleInputtwitterLink"
+              placeholder="Link"
+            />
+            <p class="text-danger text-sm">
+              <% if(errors && errors?.twitterLink){ %> <%= errors.twitterLink?.message %>
+              <% } %>
+            </p>
+          </div>
+          <!-- Social Address End -->
+        </div>
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

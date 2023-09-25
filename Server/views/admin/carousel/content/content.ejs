@@ -1,0 +1,135 @@
+<div class="col-md-8">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Current Carousel</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+      <% if(data.length > 0){ %>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th style="width: 10px">ID</th>
+            <th>Title</th>
+            <th>Sub Title</th>
+            <th style="width: 40px">Image</th>
+            <th style="width: 40px">status</th>
+            <th style="width: 40px">Action</th>
+          </tr>
+        </thead>
+        <% let id=0 %>
+        <tbody>
+          <% for(let item of data){ %>
+          <tr class="">
+            <td><%= ++id %></td>
+            <td><%= item.title %></td>
+            <td>
+              <div class=""><%= item.subTitle%></div>
+            </td>
+            <td>
+              <img
+                class="img-fluid rounded-lg"
+                src="<%= item.image %>"
+                alt="poster"
+              />
+            </td>
+
+            <td>
+              <a
+                href="/admin/carousel/switch/<%= item._id %>"
+                class="<%= item.active ? 'bg-danger' : 'bg-success' %> text-center btn text-xs"
+              >
+                <%= item.active ? "Disable" : "Active" %>
+              </a>
+            </td>
+            <td>
+              <a
+                class="bg-danger text-center btn"
+                href="/admin/carousel/<%= item._id %>"
+                >Delete</a
+              >
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+      <% }else{ %>
+      <h3 class="d-flex justify-content-center align-content-center my-2 py-2">
+        No data found!
+      </h3>
+      <% } %>
+    </div>
+    <!-- /.card-body -->
+  </div>
+</div>
+
+<div class="col-md-4">
+  <!-- general form elements -->
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Add Carousel</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form
+      action="/admin/addCarousel"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <div class="card-body">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Tittle</label>
+          <input
+            type="text"
+            name="title"
+            value="<%= payload && payload?.title ? payload?.title : ''  %>"
+            class="form-control"
+            id="exampleInputEmail1"
+            placeholder="Enter Title"
+          />
+          <p class="text-danger text-sm">
+            <% if(errors && errors?.title){ %> <%= errors.title?.message %> <% }
+            %>
+          </p>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Sub Title</label>
+          <input
+            type="text"
+            name="subTitle"
+            value="<%= payload && payload?.subTitle ? payload?.subTitle : ''  %>"
+            class="form-control"
+            id="exampleInputPassword1"
+            placeholder="Enter Sub Title"
+          />
+          <p class="text-danger text-sm">
+            <% if(errors && errors?.subTitle){ %> <%= errors.subTitle?.message
+            %> <% } %>
+          </p>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputFile">File input</label>
+          <div class="input-group">
+            <div class="">
+              <input
+                type="file"
+                name="image"
+                required
+                class=""
+                id="exampleInputFile"
+                accept="image/*"
+              />
+              <label class="custom-file-label" for="exampleInputFile"
+                >Choose file</label
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>

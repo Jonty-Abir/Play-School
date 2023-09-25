@@ -1,0 +1,240 @@
+<div class="col-md-8">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Current Classes</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+      <% if(data.length > 0){ %>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th style="width: 10px">ID</th>
+            <th>Tropic</th>
+            <th>Time</th>
+            <th>Capacity</th>
+            <th style="width: 40px">Image</th>
+            <th style="width: 40px">status</th>
+            <th style="width: 40px">Action</th>
+          </tr>
+        </thead>
+        <% let id=0 %>
+        <tbody>
+          <% for(let item of data){ %>
+          <tr class="">
+            <td><%= ++id %></td>
+            <td><%= item?.tropicName %></td>
+            <td><%= item?.classTime %></td>
+            <td><%= item?.capacity %></td>
+            <td>
+              <img
+                class="img-fluid rounded-lg"
+                src="<%= item?.poster %>"
+                alt="poster"
+              />
+            </td>
+
+            <td>
+              <a
+                href="/admin/classes/switch/<%= item._id %>"
+                class="<%= item.active ? 'bg-danger' : 'bg-success' %> text-center btn text-xs"
+              >
+                <%= item.active ? "Disable" : "Active" %>
+              </a>
+            </td>
+            <td>
+              <a
+                class="bg-danger text-center btn"
+                href="/admin/classes/<%= item._id %>"
+                >Delete</a
+              >
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+      <% }else{ %>
+      <h3 class="d-flex justify-content-center align-content-center my-2 py-2">
+        No data found!
+      </h3>
+      <% } %>
+    </div>
+    <!-- /.card-body -->
+  </div>
+</div>
+
+<div class="col-md-4">
+  <!-- general form elements -->
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Add Classes</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form action="/admin/classes" method="post" enctype="multipart/form-data">
+      <span class="ml-4">Class</span>
+      <!-- Class Section Start -->
+      <div class="card-body">
+        <!-- Tropic Start -->
+        <div class="form-group">
+          <label for="tropicName">Tropic Name</label>
+          <input
+            type="text"
+            name="tropicName"
+            value="<%= payload ? payload.tropicName  : '' %>"
+            class="form-control"
+            id="tropicName"
+            placeholder="Enter Tropic"
+          />
+          <p class="text-danger text-sm">
+            <% if(errors && errors?.tropicName){ %> <%=
+            errors?.tropicName?.message %> <% } %>
+          </p>
+        </div>
+        <!-- Tropic END -->
+        <!-- Poster Start -->
+        <div class="form-group">
+          <label for="class_poster">Poster</label>
+          <div class="input-group">
+            <div class="">
+              <input
+                type="file"
+                required
+                name="poster"
+                class=""
+                id="class_poster"
+                accept="image/*"
+              />
+
+              <label class="custom-file-label" for="class_poster"
+                >Choose poster</label
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Poster End -->
+        <!-- AGE Start -->
+        <label for="class_Age">Age</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="">Accept Age</span>
+          </div>
+          <input
+            type="number"
+            name="first_age"
+            value="<%= payload ? payload?.first_age : '' %>"
+            id="class_Age"
+            class="form-control"
+          />
+          <input
+            type="number"
+            name="sce_age"
+            value="<%= payload ? payload?.sce_age : '' %>"
+            class="form-control"
+          />
+        </div>
+        <p class="text-danger text-sm">
+          <% if(errors && errors?.age){ %> <%= errors?.age?.message %> <% } %>
+        </p>
+        <!-- AGE END -->
+        <!-- Class Time Start -->
+        <label for="class_Time">Class Time</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="">Time</span>
+          </div>
+          <input type="text" name="first_time" value="<%= payload ?
+          payload?.first_time : '' %>" class_Time" placeholder="9 -12"
+          class="form-control" />
+          <input
+            type="text"
+            name="sec_time"
+            value="<%= payload ? payload?.sec_time : '' %>"
+            class="form-control"
+            placeholder="9 - 12"
+          />
+        </div>
+        <p class="text-danger text-sm">
+          <% if(errors && errors?.classTime){ %> <%= errors?.classTime?.message
+          %> <% } %>
+        </p>
+        <!-- Class Time  END -->
+        <!-- Class Time Start -->
+        <label for="class_capacity">Class Capacity</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="">Capacity</span>
+          </div>
+          <input
+            type="number"
+            name="capacity"
+            value="<%= payload ? payload?.capacity : '' %>"
+            id="class_capacity"
+            class="form-control"
+          />
+        </div>
+        <p class="text-danger text-sm">
+          <% if(errors && errors?.capacity){ %> <%= errors?.capacity?.message %>
+          <% } %>
+        </p>
+        <!-- Class Time  END -->
+      </div>
+      <!-- Class Section End -->
+      <!-- Divider -->
+      <hr class="bg-white mx-2" />
+      <!-- TEacher Section Start-->
+      <span class="ml-4">Teacher</span>
+      <div class="card-body">
+        <div class="form-group">
+          <label for="exampleInputEmail1">teacher ame</label>
+          <input
+            type="text"
+            name="name"
+            required
+            value="<%= payload ? payload.name : '' %>"
+            class="form-control"
+            id="exampleInputEmail1"
+            placeholder="Enter Name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputPassword1">Fees</label>
+          <input
+            type="number"
+            name="fees"
+            required
+            value="<%= payload ? payload.fees : '' %>"
+            class="form-control"
+            id="exampleInputPassword1"
+            placeholder="Enter Fess"
+          />
+        </div>
+        <div class="form-group">
+          <label for="teacher_avatar">Avatar</label>
+          <div class="input-group">
+            <div class="">
+              <input
+                type="file"
+                required
+                name="avatar"
+                class=""
+                id="teacher_avatar"
+                accept="image/*"
+              />
+              <label class="custom-file-label" for="teacher_avatar"
+                >Choose avatar</label
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- TEacher Section End-->
+
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
